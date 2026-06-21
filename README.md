@@ -10,6 +10,7 @@ Central, organized documentation for the Knitweb project — **one folder per re
 | [`markets-of-truth/`](markets-of-truth/) | *(planned knitweb)* | `development-plan.md` — agentic prediction/curation market |
 | [`monitor/`](monitor/) | [Knitweb/monitor](https://github.com/Knitweb/monitor) | `overview.md` |
 | [`lens/`](lens/) | [Knitweb/lens](https://github.com/Knitweb/lens) | reasoning-lobe notes |
+| [`gither/`](gither/) | [Knitweb/gither](https://github.com/Knitweb/gither) | `overview.md`, `launch-plan.md`, `commercial-strategy.md` |
 
 ## Scope
 Research, architecture, product plans and operating instructions for the knitweb dapps and substrate.
