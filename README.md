@@ -15,3 +15,5 @@ Central, organized documentation for the Knitweb project — **one folder per re
 Research, architecture, product plans and operating instructions for the knitweb dapps and substrate.
 
 > **Documentation only.** No subsidy/funding sections (those live in private business folders), and no secrets — deployment instructions deliberately redact all credentials. Vocabulary is canonical: *Web / Knit / Pulse / Fiber / knitweb*.
+
+- [REPOSITORIES.md](REPOSITORIES.md) — the ten repositories and how they relate (the multi-repo story)
