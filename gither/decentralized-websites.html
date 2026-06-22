@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<!-- Decentralized Websites — Findings & the Role of Gither · Knitweb docs -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Decentralized Websites — Findings &amp; the Role of Gither</title>
+<meta name="author" content="Knitweb">
+<meta name="description" content="How to move sha2.fail and sha256.fail off centralized hosting onto decentralized, crypto-paid infrastructure — and where Gither fits as Knitweb's ownership layer.">
+<meta name="keywords" content="decentralized hosting, Akash, IPFS, Arweave, Gither, Knitweb, NMR, Web3">
+<meta name="generator" content="Kami">
+<style>
+  @font-face { font-family: "JetBrains Mono"; src: url("../fonts/JetBrainsMono.woff2") format("woff2"); font-weight: 400; font-style: normal; }
+  @font-face { font-family: "JetBrains Mono"; src: url("../fonts/JetBrainsMono.woff2") format("woff2"); font-weight: 500; font-style: normal; }
+
+  @page {
+    size: A4;
+    margin: 20mm 22mm 22mm 22mm;
+    background: #f5f4ed;
+
+    @top-right {
+      content: string(section-title);
+      font-family: Charter, Georgia, Palatino, serif;
+      font-size: 8pt;
+      color: #6b6a64;
+    }
+
+    @bottom-center {
+      content: counter(page) "  ·  Decentralized Websites — Findings & the Role of Gither";
+      font-family: Charter, Georgia, Palatino, serif;
+      font-size: 9pt;
+      color: #6b6a64;
+    }
+  }
+  @page:first {
+    @top-right { content: ""; }
+    @bottom-center { content: ""; }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --parchment: #f5f4ed;
+    --ivory:     #faf9f5;
+    --near-black:#141413;
+    --dark-warm: #3d3d3a;
+    --olive:     #504e49;
+    --stone:     #6b6a64;
+    --brand:     #1B365D;
+    --border:    #e8e6dc;
+    --border-soft:#e5e3d8;
+    --tag-bg:    #E4ECF5;
+
+    --serif: Charter, Georgia,
+             Palatino, "Times New Roman", serif;
+    --sans: var(--serif);
+    --mono:  "JetBrains Mono", "SF Mono", "Fira Code",
+             Consolas, Monaco, monospace;
+  }
+
+  html, body { background: var(--parchment); }
+
+  @media screen {
+    body { max-width: 210mm; margin: 0 auto; padding: 20mm 22mm 22mm 22mm; }
+  }
+
+  body {
+    color: var(--near-black);
+    font-family: var(--serif);
+    font-size: 10.5pt;
+    line-height: 1.55;
+    widows: 3;
+    orphans: 3;
+  }
+
+  .sans { font-family: var(--sans); }
+
+  /* COVER */
+  .cover {
+    min-height: 240mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40mm 0 0 0;
+    break-after: page;
+  }
+  .cover-eyebrow {
+    font-family: var(--sans);
+    font-size: 10pt;
+    color: var(--brand);
+    letter-spacing: 2pt;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 18pt;
+  }
+  .cover-title {
+    font-size: 40pt;
+    font-weight: 500;
+    color: var(--near-black);
+    line-height: 1.12;
+    letter-spacing: -0.5pt;
+    margin-bottom: 16pt;
+  }
+  .cover-sub {
+    font-family: var(--sans);
+    font-size: 14pt;
+    color: var(--olive);
+    line-height: 1.45;
+    max-width: 85%;
+    margin-bottom: 30pt;
+  }
+  .cover-meta {
+    font-family: var(--sans);
+    font-size: 10pt;
+    color: var(--stone);
+    line-height: 1.55;
+    font-variant-numeric: tabular-nums;
+  }
+  .cover-meta strong { color: var(--dark-warm); font-weight: 500; }
+
+  /* TOC */
+  .toc { break-after: page; }
+  .toc h2 {
+    font-size: 22pt;
+    font-weight: 500;
+    margin-bottom: 14pt;
+    border-left: 2.5pt solid var(--brand);
+    border-radius: 1.5pt;
+    padding-left: 8pt;
+  }
+  .toc-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 6pt 0;
+    border-bottom: 0.3pt dotted var(--border);
+    font-size: 11pt;
+  }
+  .toc-item:last-of-type { border-bottom: none; }
+  .toc-num {
+    color: var(--brand);
+    font-weight: 500;
+    min-width: 30pt;
+    font-variant-numeric: tabular-nums;
+  }
+  .toc-title {
+    flex: 1;
+    color: var(--near-black);
+    padding-left: 6pt;
+  }
+  .toc-page {
+    color: var(--stone);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* HEADINGS */
+  h1 {
+    font-size: 24pt;
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.3pt;
+    margin: 0 0 10pt 0;
+    border-left: 2.5pt solid var(--brand);
+    border-radius: 1.5pt;
+    padding-left: 8pt;
+    color: var(--near-black);
+    break-after: avoid;
+  }
+  h2 {
+    font-size: 16pt;
+    font-weight: 500;
+    line-height: 1.25;
+    margin: 24pt 0 8pt 0;
+    color: var(--near-black);
+    break-after: avoid;
+    string-set: section-title content();
+  }
+  h3 {
+    font-size: 13pt;
+    font-weight: 500;
+    line-height: 1.3;
+    margin: 18pt 0 6pt 0;
+    color: var(--dark-warm);
+    break-after: avoid;
+  }
+
+  .chapter-num {
+    font-family: var(--sans);
+    font-size: 10pt;
+    color: var(--brand);
+    letter-spacing: 1pt;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 6pt;
+  }
+
+  /* PARAGRAPHS */
+  p { margin: 0 0 10pt 0; line-height: 1.55; color: var(--near-black); widows: 2; orphans: 2; }
+
+  .lead {
+    font-size: 12pt;
+    line-height: 1.55;
+    color: var(--dark-warm);
+    margin-bottom: 14pt;
+  }
+
+  .hl { color: var(--brand); font-weight: 500; }
+  strong { font-weight: 500; }
+
+  /* LISTS */
+  ul, ol {
+    margin: 6pt 0 10pt 0;
+    padding-left: 20pt;
+    line-height: 1.55;
+  }
+  ul li::marker { color: var(--brand); }
+  ol li::marker { color: var(--brand); font-weight: 500; }
+
+  /* QUOTE */
+  blockquote, .quote {
+    border-left: 2pt solid var(--brand);
+    margin: 12pt 0;
+    padding: 4pt 0 4pt 16pt;
+    color: var(--olive);
+    line-height: 1.55;
+    break-inside: avoid;
+  }
+  blockquote .cite, .quote .cite {
+    display: block;
+    font-family: var(--sans);
+    font-size: 9pt;
+    color: var(--stone);
+    margin-top: 4pt;
+  }
+
+  /* CODE */
+  code {
+    font-family: var(--mono);
+    font-size: 9pt;
+    background: var(--ivory);
+    padding: 1pt 4pt;
+    border-radius: 2pt;
+    color: var(--dark-warm);
+  }
+  pre {
+    font-family: var(--mono);
+    font-size: 9pt;
+    line-height: 1.5;
+    background: var(--ivory);
+    border-radius: 4pt;
+    padding: 10pt 14pt;
+    margin: 10pt 0;
+    white-space: pre-wrap;
+    color: var(--near-black);
+    break-inside: avoid;
+  }
+  pre code { background: transparent; padding: 0; font-size: inherit; }
+
+  /* TABLE */
+  table, .kami-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+    margin: 12pt 0;
+    break-inside: avoid;
+  }
+  table th, .kami-table th {
+    text-align: left;
+    font-family: var(--sans);
+    font-weight: 500;
+    color: var(--dark-warm);
+    padding: 6pt 8pt;
+    border-bottom: 1pt solid var(--border);
+    background: var(--ivory);
+  }
+  table td, .kami-table td {
+    padding: 5pt 8pt;
+    border-bottom: 0.3pt solid var(--border-soft);
+    vertical-align: top;
+  }
+  table.compact th, .kami-table.compact th { padding: 3pt 6pt; font-size: 8pt; }
+  table.compact td, .kami-table.compact td { padding: 2pt 6pt; font-size: 8pt; line-height: 1.4; }
+  table.striped tbody tr:nth-child(even) td, .kami-table.striped tbody tr:nth-child(even) td {
+    background: var(--ivory);
+  }
+  table .total td, .kami-table .total td {
+    font-weight: 500; border-top: 1pt solid var(--brand); border-bottom: none; color: var(--near-black);
+  }
+
+  /* CALLOUT / TAKEAWAY */
+  .callout {
+    background: var(--ivory);
+    border-left: 2pt solid var(--brand);
+    padding: 10pt 14pt;
+    border-radius: 3pt;
+    margin: 12pt 0;
+    line-height: 1.55;
+    break-inside: avoid;
+  }
+  .takeaway {
+    background: var(--ivory);
+    border-radius: 4pt;
+    padding: 10pt 14pt;
+    margin: 14pt 0;
+    break-inside: avoid;
+  }
+  .takeaway-label {
+    font-family: var(--sans);
+    font-size: 9pt;
+    color: var(--brand);
+    letter-spacing: 1pt;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 4pt;
+  }
+
+  /* TAG */
+  .tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--brand);
+    font-family: var(--sans);
+    font-size: 9pt;
+    font-weight: 500;
+    padding: 1pt 6pt;
+    border-radius: 3pt;
+    letter-spacing: 0.4pt;
+    text-transform: uppercase;
+    margin-right: 4pt;
+  }
+
+  /* CHAPTER BREAK */
+  .chapter { break-before: page; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="cover">
+  <div>
+    <div class="cover-eyebrow">Knitweb · Technical White Paper</div>
+    <div class="cover-title">Decentralized Websites<br>&amp; the Role of Gither</div>
+    <div class="cover-sub">Moving sha2.fail and sha256.fail off centralized hosting onto crypto-paid, peer-to-peer infrastructure — and where Gither completes the picture as Knitweb's ownership layer.</div>
+  </div>
+  <div class="cover-meta">
+    <strong>Knitweb</strong><br>
+    Version 1.0 · 2026.06<br>
+    Knitweb · docs/gither
+  </div>
+</section>
+
+<!-- TOC -->
+<section class="toc">
+  <h2>Contents</h2>
+  <div class="toc-item"><span class="toc-num">01</span><span class="toc-title">Executive Summary</span><span class="toc-page">03</span></div>
+  <div class="toc-item"><span class="toc-num">02</span><span class="toc-title">Background &amp; Problem Statement</span><span class="toc-page">04</span></div>
+  <div class="toc-item"><span class="toc-num">03</span><span class="toc-title">Findings — Decentralized Website Hosting</span><span class="toc-page">05</span></div>
+  <div class="toc-item"><span class="toc-num">04</span><span class="toc-title">The Role of Gither</span><span class="toc-page">08</span></div>
+  <div class="toc-item"><span class="toc-num">05</span><span class="toc-title">Conclusions &amp; Recommendations</span><span class="toc-page">10</span></div>
+  <div class="toc-item"><span class="toc-num">06</span><span class="toc-title">Appendix</span><span class="toc-page">11</span></div>
+</section>
+
+<!-- Chapter 01 -->
+<section class="chapter">
+  <div class="chapter-num">01 · Executive Summary</div>
+  <h1>Executive Summary</h1>
+
+  <p class="lead">
+    A website depends on three centralized choke points: where the <span class="hl">code</span> lives, where the <span class="hl">running site</span> is hosted, and where the <span class="hl">domain</span> resolves. This paper shows how to remove the first two for <code>sha2.fail</code> and <code>sha256.fail</code> — replacing TransIP hosting with a decentralized compute network paid in crypto, and positioning Gither as the forge that removes the dependence on GitHub.
+  </p>
+
+  <h2>Key Takeaways</h2>
+  <ul>
+    <li>For dynamic, server-side sites the practical decentralized host is <span class="hl">Akash Network</span> (Docker containers, paid in AKT/USDC); IPFS/Arweave fit only static content.</li>
+    <li>Funding is self-custody and exchange-free: <span class="hl">NMR → Uniswap → bridge → AKT/USDC</span>, with the NMR sourced by unstaking from the Numerai crypto account (≈2-week timelock).</li>
+    <li>The domain stays at its normal registrar; only DNS records change — a reversible <span class="hl">CNAME cutover</span> to the Akash provider ingress.</li>
+    <li><span class="hl">Gither</span> is the missing third layer: a decentralized code forge that makes ownership and hosting of the source itself independent of GitHub.</li>
+  </ul>
+
+  <div class="takeaway">
+    <div class="takeaway-label">Questions this document answers</div>
+    <p>Which decentralized host fits a dynamic site? How is it paid for with crypto we already hold? How do the <code>.fail</code> domains point at it without losing reversibility? And what role does Gither play in the same shift?</p>
+  </div>
+</section>
+
+<!-- Chapter 02 -->
+<section class="chapter">
+  <div class="chapter-num">02 · Background</div>
+  <h1>Background &amp; Problem Statement</h1>
+
+  <p class="lead">
+    The goal is a web presence that survives the withdrawal of any single provider. Today three independent vendors can each take a site offline.
+  </p>
+
+  <h2>Current State</h2>
+  <p><code>sha2.fail</code> and <code>sha256.fail</code> run on TransIP shared webhosting — a single operator that controls uptime, billing, and the execution environment. The source is held on a centralized forge (GitHub), and DNS resolves through the registrar. Each is a separate party with the unilateral power to suspend the service.</p>
+
+  <h2>The Core Problem</h2>
+  <p>Centralized hosting concentrates three distinct risks that a resilient site should decouple: platform lock-out, billing dependence on fiat rails, and operator-controlled uptime.</p>
+
+  <div class="callout">
+    A site is only as sovereign as its <em>least</em> sovereign layer. Decentralizing hosting while leaving code ownership on a single platform simply moves the choke point one step upstream.
+  </div>
+
+  <h2>Dimensions of Success</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Dimension</th>
+        <th>Centralized (TransIP + GitHub)</th>
+        <th>Target (decentralized)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Hosting authority</td><td>Single operator</td><td>Open provider marketplace</td></tr>
+      <tr><td>Payment rail</td><td>Fiat / card, KYC</td><td>Self-custody crypto</td></tr>
+      <tr><td>Code ownership</td><td>GitHub platform</td><td>Gither forge, Git mirrors optional</td></tr>
+      <tr><td>Domain control</td><td>Registrar (unchanged)</td><td>Registrar (unchanged), repointable</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Chapter 03 -->
+<section class="chapter">
+  <div class="chapter-num">03 · Findings</div>
+  <h1>Findings — Decentralized Website Hosting</h1>
+
+  <p class="lead">The right platform depends on whether a site is static or dynamic. Since <code>sha2.fail</code>/<code>sha256.fail</code> require a backend, the analysis centers on decentralized compute, not just decentralized storage.</p>
+
+  <h2>Platform Comparison</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Platform</th>
+        <th>Model</th>
+        <th>Pays in</th>
+        <th>Fits</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Akash Network</strong></td><td>Decentralized compute marketplace; runs Docker containers via an SDL manifest</td><td>AKT / USDC</td><td>Dynamic apps (recommended)</td></tr>
+      <tr><td><strong>Flux</strong></td><td>Decentralized PaaS; Docker apps across a node network</td><td>FLUX</td><td>Dynamic apps (alternative)</td></tr>
+      <tr><td><strong>IPFS</strong> (Fleek / 4everland)</td><td>Content-addressed static hosting, pinned + gateway-served</td><td>Crypto via provider</td><td>Static sites only</td></tr>
+      <tr><td><strong>Arweave</strong></td><td>Permanent storage, one-time payment (permaweb)</td><td>AR</td><td>Static, write-once content</td></tr>
+    </tbody>
+  </table>
+
+  <div class="takeaway">
+    <div class="takeaway-label">Decision</div>
+    <p>Dynamic backend → <span class="hl">Akash</span>. Stateful data (databases) does not belong on ephemeral providers without persistent storage and backups; keep canonical state on owned infrastructure.</p>
+  </div>
+
+  <h2>Funding Path — NMR, Self-Custody</h2>
+  <p>The hosting is paid from NMR already held in the Numerai crypto account. Unstaking returns the NMR to a self-custody wallet after an approximately <span class="hl">two-week timelock</span>, so the unstake should be initiated first while the rest of the work proceeds in parallel. NMR is an ERC-20 token on Ethereum (contract <code>0x1776e1F26f98b1A5dF9cD347953a26dd3Cb46671</code>).</p>
+
+  <pre><code>NMR (Numerai stake)
+   --[unstake, ~2 weeks]--&gt; NMR in own wallet
+        --[Uniswap]--&gt; USDC (Ethereum)
+             --[Squid / Axelar bridge]--&gt; Osmosis (Cosmos)
+                  +--&gt; swap a portion to AKT (Akash gas)
+                  +--[IBC]--&gt; Akash wallet (Keplr) --&gt; deploy</code></pre>
+
+  <p>Only a fraction of the NMR is needed — a small container costs a few dollars per month — so the remainder can stay staked. A centralized exchange that lists both NMR and AKT is a shortcut, but it reintroduces KYC; the self-custody route above keeps the keys with the owner.</p>
+
+  <h2>DNS Cutover</h2>
+  <p>The <code>.fail</code> domains remain at the existing registrar; only the records change. The domains are declared in the Akash SDL under <code>expose → accept</code>, the provider issues TLS on its ingress, and DNS points at the provider hostname returned by <code>lease-status</code>.</p>
+  <table class="compact">
+    <thead><tr><th>Host</th><th>Type</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>sha2.fail / www</td><td>CNAME</td><td>provider ingress hostname</td></tr>
+      <tr><td>sha256.fail / www</td><td>CNAME</td><td>provider ingress hostname</td></tr>
+    </tbody>
+  </table>
+  <p>Lowering TTL to 300s a day ahead makes the switch fast and fully reversible: the TransIP records stay in place until the Akash deployment is verified, giving instant rollback.</p>
+</section>
+
+<!-- Chapter 04 -->
+<section class="chapter">
+  <div class="chapter-num">04 · Gither</div>
+  <h1>The Role of Gither</h1>
+
+  <p class="lead">Decentralized hosting frees the <em>running</em> site. Gither frees the <span class="hl">source and its ownership</span> — the third choke point, and the one that hosting alone cannot solve.</p>
+
+  <h2>What Gither Is</h2>
+  <p>Gither is the Knitweb code forge: the trusted application layer for code ownership, change review, release gating, and repository collaboration. It is meant to replace GitHub and GitLab as the <em>authority</em> over code, while Git itself remains the open, interoperable object and transport layer underneath. GitHub and GitLab become optional mirrors, not the system of record.</p>
+
+  <blockquote>
+    Git stores code. Ethereum stores value. Gither stores ownership of knowledge.
+    <span class="cite">— Gither, README</span>
+  </blockquote>
+
+  <h2>Why It Matters Here</h2>
+  <p>The strategic risk of GitHub dependence is platform lockout. The weak answer is "move to GitLab," which still depends on servers, operators, and hosted uptime. Gither's target is a <span class="hl">serverless developer network</span> where code, changes, reviews, tests, releases, and CI receipts are verified through Knitweb records rather than trusted to one hosted service. It is positioned to be adopted first as a familiar peer-to-peer duplicate of GitHub, then to move toward Web3 and serverless development.</p>
+
+  <h2>How the Layers Compose</h2>
+  <p>Decentralizing the host without decentralizing the forge moves the choke point upstream rather than removing it. Gither closes that gap, and it does so within the wider Knitweb constellation:</p>
+  <ul>
+    <li><strong>Gither</strong> records reviewed ownership and royalty policy — who owns what, and under which release gate.</li>
+    <li><strong>Knitweb / pulse</strong> records dependency relationships and real usage, so revenue can be attributed to the components actually used.</li>
+    <li><strong>Akash / IPFS / Arweave</strong> run and serve the resulting artifact.</li>
+  </ul>
+
+  <div class="callout">
+    Its incentive rule avoids commit-farming and AI-generated noise: <code>code earns only when it is actually used</code>. Ownership (Gither) and usage (pulse) are recorded separately, then reconciled.
+  </div>
+
+  <h2>Current Capabilities</h2>
+  <p>Gither already provides repository discovery, task routing across Knitweb repos, repo-graph export, cross-repo test-plan output, Git repository snapshots, a Python code-discipline audit, versioned change notes in <code>.gither/changes</code>, and a local review gate for source state and Python quality.</p>
+
+  <div class="takeaway">
+    <div class="takeaway-label">Caveat — where stateful state lives</div>
+    <p>A forge is stateful (repositories, history, review records). That canonical state belongs on reliable, backed-up storage — not on an ephemeral compute provider. Decentralizing the forge is about authority and verifiability, with Git mirrors as durable backups, not about running the system of record on best-effort nodes.</p>
+  </div>
+</section>
+
+<!-- Chapter 05 -->
+<section class="chapter">
+  <div class="chapter-num">05 · Conclusions</div>
+  <h1>Conclusions &amp; Recommendations</h1>
+
+  <p class="lead">A sovereign web presence is achievable by decoupling all three layers — host, payment, and forge — each with a reversible migration path.</p>
+
+  <h2>Core Conclusions</h2>
+  <ol>
+    <li>Akash is the right decentralized host for the dynamic <code>.fail</code> sites; IPFS/Arweave are reserved for any static assets.</li>
+    <li>The NMR-funded, self-custody payment path is viable and exchange-free, gated only by the two-week unstake timelock.</li>
+    <li>DNS cutover is low-risk and reversible, so the switch can be verified before TransIP is decommissioned.</li>
+    <li>Gither is the complementary forge layer: without it, decentralizing hosting leaves code ownership centralized on GitHub.</li>
+  </ol>
+
+  <h2>Recommended Next Steps</h2>
+  <p>Run the funding clock and the build in parallel so they converge: initiate the NMR unstake now; during the timelock, containerize both sites and stage the Akash SDL and DNS records; on release of funds, swap, deploy, and flip DNS.</p>
+
+  <div class="takeaway">
+    <div class="takeaway-label">Call to Action</div>
+    <p>Start the NMR unstake on the Numerai crypto account today — it is the only step with a fixed two-week delay. Everything else can be prepared and tested while that clock runs.</p>
+  </div>
+</section>
+
+<!-- Chapter 06 -->
+<section class="chapter">
+  <div class="chapter-num">06 · Appendix</div>
+  <h1>Appendix</h1>
+
+  <h2>A. References</h2>
+  <ul>
+    <li>Gither — README, <code>github.com/Knitweb/gither</code></li>
+    <li>Knitweb — <code>docs/REPOSITORIES.md</code> (the repository constellation)</li>
+    <li>Akash Network — SDL manifest and provider deployment documentation</li>
+    <li>Companion artifact — <code>sha-fail-akash-hosting/</code> (deploy.yaml, RUNBOOK.md, Dockerfile templates)</li>
+  </ul>
+
+  <h2>B. Glossary</h2>
+  <p><strong>Akash SDL</strong> — Stack Definition Language; the manifest declaring images, ports, accepted domains, and resources for an Akash deployment.</p>
+  <p><strong>AKT</strong> — the native token of the Akash chain; required for chain gas and deployment escrow.</p>
+  <p><strong>NMR (Numeraire)</strong> — the ERC-20 token staked on Numerai; the funding source after unstaking.</p>
+  <p><strong>IBC</strong> — Inter-Blockchain Communication; the Cosmos protocol used to move tokens to the Akash wallet.</p>
+  <p><strong>Gither</strong> — Knitweb's decentralized code forge; the ownership, review, and release-gating layer above Git.</p>
+
+  <h2>C. Status</h2>
+  <p>Blocked on two inputs at time of writing: the source location and stack of <code>sha2.fail</code>/<code>sha256.fail</code> (needed to write the Dockerfiles), and the NMR unstake timelock. The hosting kit and this paper are the prepared, non-blocked deliverables.</p>
+</section>
+
+</body>
+</html>
