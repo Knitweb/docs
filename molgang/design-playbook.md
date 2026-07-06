@@ -52,7 +52,7 @@ A multi-runtime implementation of one game on `knitweb/pulse`: a canonical **Pyt
 - **Three drifting implementations of one ruleset** — divergent BFT quorum thresholds and **divergent fiber CID derivation** (PHP's bespoke base32 ≠ knitweb CID). A 5mart.ml knit and a Python knit of the same fact cannot converge to one state_root/UAL.
 - **Wall-clock on the weave path** (`world.py` stamps `anchor_ts=int(time.time())` → feeds `tension.age_steps()` → tautness → SNAP/routing). A determinism leak on a *decision* path.
 - **XP/level recomputed ad hoc** (`woven_count * XP_PER_WOVEN` in ~5 places, re-derived in PHP) — no single source of truth.
-- **Identity insecure-by-design** (`sha256("molgang:device:"+id)` keys derivable from a localStorage UUID; the certificate prints the private key in cleartext). A classroom toy, a hard blocker for anything value-bearing or adversarial.
+- **Identity insecure-by-design** (`sha256("molgang:device:"+id)` keys derivable from a localStorage UUID; the certificate *used to* print the private key in cleartext — since fixed: the public `/api/certificate` path is always redacted and bearer export is an explicit local-CLI-only flow). Still a hard blocker for anything value-bearing or adversarial until client-held keys land.
 - **No type-checking/linting in CI; the only fully-persistent runtime (PHP) is the least tested; no concurrency/load tests.**
 
 ### 2.2 Target architecture (concrete)
@@ -267,7 +267,7 @@ The moment-to-moment skill is **real-time four-way µPLS allocation** (Red Alert
 - *Mitigation:* ship the pure refactors (§2.3 steps 1–3) and **two** faction knitwebs first; everything else is P2. Respect the "strict minimum first, rest optional" principle.
 
 **E. Identity & Sybil.**
-- *Risk:* today's `sha256(device_id)` keys are fully derivable and the certificate prints the private key in cleartext — a hard blocker for any value-bearing or adversarial multiplayer; Sybil farming ("one operator, 100 nodes") is the universal DePIN tax.
+- *Risk:* today's `sha256(device_id)` keys are fully derivable (the certificate cleartext-key leak is since fixed — public path always redacts; bearer is CLI-only) — still a hard blocker for any value-bearing or adversarial multiplayer; Sybil farming ("one operator, 100 nodes") is the universal DePIN tax.
 - *Mitigation:* client-held keypairs (WebCrypto/passkeys), server sees only pubkeys; certificate proves work by *signing a challenge*, never printing the key; PoUW re-execution + stake-and-slash makes faking expensive; composite Sybil-gate score for high-value actions; per-node settlement-rate cap as a structural brake.
 
 **F. Liveness/governance.**
