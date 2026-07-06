@@ -1,0 +1,13 @@
+# githfield.yml — links this repo's docs & backlog into githfield
+field:   ecosystem
+name:    Ecosystem docs
+accent:  "#8a99ad"
+summary: Cross-cutting docs — repository map, engineering standards, markets-of-truth
+homepage: https://knitweb.art
+backlog:
+  labels: []
+  group_by: ""
+docs:
+  - { title: "Repository map",                    path: "REPOSITORIES.md",                    stage: reference }
+  - { title: "Agent engineering standards",       path: "AGENT_ENGINEERING_STANDARDS.md",     stage: reference }
+  - { title: "Markets of Truth — development plan", path: "markets-of-truth/development-plan.md", stage: roadmap }
