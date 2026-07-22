@@ -134,9 +134,23 @@ All 5 resolved:
 All 5 previously-conflicting PRs are now closed, either merged directly or replaced by a
 merged equivalent. Nothing left blocking in this pass.
 
+## Follow-up (2026-07-23): `FinField/scrapers`#7 data-source decision
+
+Verified live that stooq's `/q/d/l/` CSV endpoint still serves a JS SHA-256 PoW
+verification page (not solving that programmatically, per the issue). Implemented
+Option 1 from the issue: `FinField/scrapers`#10 adds `alphavantage-eod`, a second
+`FactSource` under Alpha Vantage's documented API terms. Deliberately scoped down from
+stooq — US-listed tickers only (non-US free-tier coverage is inconsistent, not guessed
+at), unadjusted daily close (`_ADJUSTED` moved to Alpha Vantage's premium tier in 2024)
+— and opt-in: `covers()` returns `False` with no `ALPHA_VANTAGE_API_KEY` configured, so
+existing pipelines don't break for anyone who hasn't set one up. `stooq-eod` stays
+registered as-is; it resumes working automatically if stooq lifts the block. 55/55 tests
+pass (5 new, offline fixture-based, matching Alpha Vantage's documented response
+schema — no live key spent from this pass). Issue #7 left open pending review/merge of
+#10, and pending a decision on whether to also pursue the issue's Option 2 (ask stooq
+for API access).
+
 **Left open, needs manual attention:**
-- `FinField/scrapers`#7 — stooq.com's anti-bot wall; needs a data-source decision, not
-  a code fix (explicitly not bypassing the bot wall).
 - `molgang-roblox`#7 / `molgang-web`#1 — sync-blocker between `molgang-roblox`'s stale
   `master` (last commit 2026-05-04) and its active `main` (2026-06-16); needs an owner
   decision on canonical branch, not an automated reconciliation.
