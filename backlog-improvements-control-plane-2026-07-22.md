@@ -1,6 +1,6 @@
 # Active febuz backlog improvements and Knitweb control plane
 
-**Status:** implementation started  
+**Status:** implementation in progress
 **Canonical backlog:** GitHub Issues and Projects  
 **Documentation home:** `Knitweb/docs`  
 **Control-plane repository:** `Knitweb/control-plane`
@@ -99,12 +99,13 @@ Security is a first-class backlog lane, not a final checklist.
 - owner-only outbox file permissions and no outbox/secrets in Git;
 - no stack traces or secret values in HTTP responses;
 - cache, framing, MIME-sniffing, and referrer-leakage protections on responses.
+- trusted-host validation, bounded GitHub delivery identifiers, and fixed-window webhook rate limiting ([control-plane PR #13](https://github.com/Knitweb/control-plane/pull/13)).
 
 ### Required security backlog
 
 - Install the GitHub App for the `febuz` account so private repositories can be managed through the connector; until then use a scoped CI credential.
-- Add webhook replay protection and a durable delivery ledger.
-- Add trusted-host validation, edge rate limits, TLS deployment checks, and authenticated operator sessions.
+- Extend the current idempotent outbox with replay-window timestamps and a durable delivery ledger.
+- Replace the current in-process rate limiter with edge-backed limits for multi-instance deployments; add TLS deployment checks and authenticated operator sessions.
 - Add strict schemas for every adapter payload and reject unsafe unknown fields.
 - Add dependency scanning, secret scanning, CodeQL, and signed release provenance.
 - Audit FastAPI and Next.js surfaces for debug mode, public docs, permissive CORS, missing auth dependencies, unsafe uploads, SSRF, and exposed client secrets.
