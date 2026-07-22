@@ -110,9 +110,25 @@ tax modules, Knitweb P2P integration) now carry a new `epic` label. `gither`'s
 G2-*/CG-* federation issues and `openchem`'s Slag Run issues already had adequate
 `epic:*`/`slag-run` labeling.
 
+## Follow-up pass (2026-07-23): the 5 conflicting PRs
+
+All 5 resolved:
+- `agent-mesh-whitepapers`#28/#29 — checked individually: the `03_MeshLattice.md` fixes
+  had already landed on `main` via a separate run; only `05_KnitNet_KnowledgeGraph.md`'s
+  citation-style cleanup was still outstanding. Re-applied directly against current
+  `main` as `agent-mesh-whitepapers`#33, merged. #28/#29 closed as superseded.
+- `FinField/facts`#8 — diffed content directly: all 30 net-new records this PR would add
+  already exist verbatim in `main` (landed independently via a later batch). Closed as
+  redundant, nothing to merge.
+- `pulse`#364 and `pulse`#357 — both were pure-addition PRs (new files only) whose sole
+  conflict was an adjacent-line collision in `docs/FEATURES.md` against the
+  already-merged GeoWeave/PAR bridge (#365) — three PRs had each appended a bullet at
+  the same list position. Merged `main` forward into each branch, kept all three bullets,
+  verified the new Python files still byte-compile, and opened `pulse`#370 / `pulse`#371
+  as direct replacements (original branches closed as superseded, not force-pushed —
+  avoids touching another agent's branch ref).
+
 **Left open, needs manual attention:**
-- 5 PRs with real merge conflicts: `pulse`#364, `pulse`#357, `FinField/facts`#8,
-  `agent-mesh-whitepapers`#28, `agent-mesh-whitepapers`#29.
 - `FinField/scrapers`#7 — stooq.com's anti-bot wall; needs a data-source decision, not
   a code fix (explicitly not bypassing the bot wall).
 - `molgang-roblox`#7 / `molgang-web`#1 — sync-blocker between `molgang-roblox`'s stale
