@@ -113,8 +113,6 @@ Security is a first-class backlog lane, not a final checklist.
 - Audit ClaudeClaw/Paperclip execution paths for command injection, path traversal, patch authorization, and verification bypasses.
 - Apply the deployment-specific Compose hardening recorded in [SEC-007](./security-findings-2026-07-23.md#sec-007--paperclip-compose-exposes-unauthenticated-infrastructure).
 
-The requested `alert-fix-71` branch was not present in the checked-out repositories or accessible `febuz` remotes. Its owning repository must be identified before checkout or targeted fixes are applied.
-
 ## Acceptance criteria
 
 - The control plane accepts a valid GitHub webhook exactly once and rejects invalid/replayed input.
