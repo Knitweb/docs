@@ -8,9 +8,14 @@ The two services are supervised by the user systemd manager:
 - `alexander.service` — Alexander GUI on `127.0.0.1:7878` and LiteLLM on
   `127.0.0.1:4002`;
 - `knitweb-agents-governor.service` — host-level resource guard.
+- `knitweb-backlog-feeder.timer` — refreshes selected `febuz` and `Knitweb`
+  development issues every 10 minutes when fewer than three unattempted items
+  remain.
 
 All three units are enabled for automatic restart after user-session startup.
 Alexander's autonomous queue is `/media/knight2/EDS2/projects/alexander/runtime/AUTONOMOUS-BACKLOG.md`.
+When organization queues are empty, the feeder uses the local
+`VIRTUALPC-FALLBACK-BACKLOG.md` maintenance queue.
 
 ## Resource policy
 
