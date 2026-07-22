@@ -19,3 +19,4 @@ Research, architecture, product plans and operating instructions for the knitweb
 
 - [REPOSITORIES.md](REPOSITORIES.md) — the ten repositories and how they relate (the multi-repo story)
 - [backlog-cleanup-2026-07-22.md](backlog-cleanup-2026-07-22.md) — cross-organization backlog triage plan (all febuz orgs)
+- [backlog-improvements-control-plane-2026-07-22.md](backlog-improvements-control-plane-2026-07-22.md) — active febuz backlog normalization, control-plane implementation, and security workstream
