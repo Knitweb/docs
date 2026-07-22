@@ -124,9 +124,15 @@ All 5 resolved:
   conflict was an adjacent-line collision in `docs/FEATURES.md` against the
   already-merged GeoWeave/PAR bridge (#365) — three PRs had each appended a bullet at
   the same list position. Merged `main` forward into each branch, kept all three bullets,
-  verified the new Python files still byte-compile, and opened `pulse`#370 / `pulse`#371
-  as direct replacements (original branches closed as superseded, not force-pushed —
-  avoids touching another agent's branch ref).
+  verified the new Python files still byte-compile, opened `pulse`#370 / `pulse`#371 as
+  direct replacements (original branches closed as superseded, not force-pushed — avoids
+  touching another agent's branch ref), waited out full CI (CodeQL + lint analyzers +
+  property-test suite, all green on both), and **merged both** — #370 first, then
+  re-merged `main` into #371 once more (it had picked up #370's own FEATURES.md line in
+  the interim) before its final green CI and merge.
+
+All 5 previously-conflicting PRs are now closed, either merged directly or replaced by a
+merged equivalent. Nothing left blocking in this pass.
 
 **Left open, needs manual attention:**
 - `FinField/scrapers`#7 — stooq.com's anti-bot wall; needs a data-source decision, not
