@@ -150,10 +150,25 @@ schema — no live key spent from this pass). Issue #7 left open pending review/
 #10, and pending a decision on whether to also pursue the issue's Option 2 (ask stooq
 for API access).
 
+## Follow-up (2026-07-23): `molgang-roblox`#7 / `molgang-web`#1 branch fix
+
+Investigated before touching anything: the local checkout the coordination config
+pointed at no longer existed on this host, and no sync script/cron could be found here
+(runs elsewhere or was decommissioned). Diffing `master` against `main` turned up
+something worse than ordinary drift — `master`'s 110 unique commits were not
+molgang-roblox content at all. They were **VirtualPC/OpenClaw project history**
+(dashboards, Kafka, auth, Docker/K8s docs), almost certainly pushed to the wrong remote
+at some point. Verified `master`'s exact tip commit (`ca41f3b9`) already exists
+byte-identical in `virtuanalytica/virtualpc` before touching anything, confirming
+nothing would be lost.
+
+Owner explicitly authorized a one-off exception to the standing "never force-push
+main/master" guardrail for this specific case. Force-pushed `main` onto `master`
+(`git push origin origin/main:refs/heads/master --force-with-lease`); both branches now
+point at the identical commit `164ffdb5`. Verified via the GitHub API. Both issues
+closed with the root-cause explanation.
+
 **Left open, needs manual attention:**
-- `molgang-roblox`#7 / `molgang-web`#1 — sync-blocker between `molgang-roblox`'s stale
-  `master` (last commit 2026-05-04) and its active `main` (2026-06-16); needs an owner
-  decision on canonical branch, not an automated reconciliation.
 - All multi-week epics (gither federation, molgang scale-test cluster, ChemField Slag
   Run, ledgerfield tax modules) — recognized/labeled, not attempted, per this pass's
   scope.
