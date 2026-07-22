@@ -9,6 +9,7 @@
 **Initial security issue:** [control-plane#8](https://github.com/Knitweb/control-plane/issues/8)  
 **Molgang source-of-truth issue:** [control-plane#11](https://github.com/Knitweb/control-plane/issues/11)  
 **Numerai backlog-mapping issue:** [control-plane#12](https://github.com/Knitweb/control-plane/issues/12)
+**Security audit report:** [security-findings-2026-07-23.md](./security-findings-2026-07-23.md)
 
 ## Objective
 
@@ -110,6 +111,7 @@ Security is a first-class backlog lane, not a final checklist.
 - Add dependency scanning, secret scanning, CodeQL, and signed release provenance.
 - Audit FastAPI and Next.js surfaces for debug mode, public docs, permissive CORS, missing auth dependencies, unsafe uploads, SSRF, and exposed client secrets.
 - Audit ClaudeClaw/Paperclip execution paths for command injection, path traversal, patch authorization, and verification bypasses.
+- Apply the deployment-specific Compose hardening recorded in [SEC-007](./security-findings-2026-07-23.md#sec-007--paperclip-compose-exposes-unauthenticated-infrastructure).
 
 The requested `alert-fix-71` branch was not present in the checked-out repositories or accessible `febuz` remotes. Its owning repository must be identified before checkout or targeted fixes are applied.
 
