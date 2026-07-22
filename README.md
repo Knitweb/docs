@@ -18,3 +18,4 @@ Research, architecture, product plans and operating instructions for the knitweb
 > **Documentation only.** No subsidy/funding sections (those live in private business folders), and no secrets — deployment instructions deliberately redact all credentials. Vocabulary is canonical: *Web / Knit / Pulse / Fiber / knitweb*.
 
 - [REPOSITORIES.md](REPOSITORIES.md) — the ten repositories and how they relate (the multi-repo story)
+- [backlog-cleanup-2026-07-22.md](backlog-cleanup-2026-07-22.md) — cross-organization backlog triage plan (all febuz orgs)
