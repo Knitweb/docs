@@ -5,6 +5,11 @@
 **Documentation home:** `Knitweb/docs`  
 **Control-plane repository:** `Knitweb/control-plane`
 
+**Execution project:** [Nexus Control Plane](https://github.com/orgs/Knitweb/projects/8)  
+**Initial security issue:** [control-plane#8](https://github.com/Knitweb/control-plane/issues/8)  
+**Molgang source-of-truth issue:** [control-plane#11](https://github.com/Knitweb/control-plane/issues/11)  
+**Numerai backlog-mapping issue:** [control-plane#12](https://github.com/Knitweb/control-plane/issues/12)
+
 ## Objective
 
 Turn the active febuz repositories into one traceable delivery system without merging their codebases or making any repository depend on another repository's internals.
